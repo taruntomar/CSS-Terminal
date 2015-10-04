@@ -1,0 +1,128 @@
+﻿<Window x:Class="CISanityTester.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:CISanityTester"
+        xmlns:avalonDock="http://schemas.xceed.com/wpf/xaml/avalondock"
+        xmlns:sessions="clr-namespace:CISanityTester.Sessions"
+        xmlns:ipe="clr-namespace:CISanityTester.InfineraProductExplorer"
+        xmlns:ssct="clr-namespace:CISanityTester.SanitySuitTree"
+        xmlns:schedularns="clr-namespace:CISanityTester.Schedular"
+        mc:Ignorable="d" 
+        Title="CI Sanity Suit" WindowState="Maximized" Icon=".\Resources\Images\Application\Logo\logo.ico">
+    <Grid>
+        
+        <Grid.RowDefinitions>
+            <RowDefinition Height="28"></RowDefinition>
+            <RowDefinition Height="30"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="22"></RowDefinition>
+        </Grid.RowDefinitions>
+        <Menu IsMainMenu="True" Grid.Row="0">
+            <MenuItem Header="File">
+                <MenuItem Header="New Template" />
+                <MenuItem x:Name="OpenTemplateMenuButton" Header="Open Template" Click="OpenTemplateMenuButton_Click"/>
+                <MenuItem x:Name="SaveTemplateMenuButton" Header="Save Template" Click="SaveTemplateMenuButton_Click" />
+                <MenuItem Header="Save As.." />
+                <MenuItem Header="Sync with P4" />
+                <MenuItem x:Name="CloseTemplateMenuButton" Header="Close" Click="CloseTemplateMenuButton_Click" />
+                <MenuItem Header="Exit" />
+            </MenuItem>
+            <MenuItem Header="View">
+                <MenuItem Header="Server Sessions" />
+                <MenuItem Header="Reports" />
+                <MenuItem Header="Sanity Suit Explorer" />
+                <MenuItem Header="Toolbars">
+                    <MenuItem Header="Basic"></MenuItem>
+                    <MenuItem Header="Quick Connect"></MenuItem>
+                </MenuItem>
+            </MenuItem>
+            <MenuItem Header="Tool">
+                <MenuItem Header="Analyser" />
+                <MenuItem Header="Options" />
+            </MenuItem>
+
+            <MenuItem Header="Help">
+                <MenuItem Header="Search" />
+                <MenuItem Header="View Help" />
+                <MenuItem Header="About CI Sanity Suit" />
+            </MenuItem>
+        </Menu>
+        <ToolBarTray  Grid.Row="1" VerticalAlignment="Top" >
+            <ToolBar Name="MyToolbar" Background="WhiteSmoke">
+                <Button Name="OpenButton">
+                    <Image Source=".\Resources\Images\Application\Toolbar\NewFile_6276_32.bmp" Height="16" Width="16" />
+                </Button>
+                <Button Name="CloseButton" Click="OpenTemplateMenuButton_Click">
+                    <Image Source=".\Resources\Images\Application\Toolbar\OpenHS.png" Height="16" Width="16"  />
+                </Button>
+                <Button Name="ExitButton"  >
+                    <Image Source=".\Resources\Images\Application\Toolbar\SaveHS.png" Height="16" Width="16"/>
+                </Button>
+                
+            </ToolBar >
+            <ToolBar Background="WhiteSmoke">
+                <Label Content="Quick Connect:"></Label>
+                <TextBox Width="200"></TextBox>
+                <Label Content="Port:"></Label>
+                <TextBox Width="50"></TextBox>
+                <Label Content="Type:"></Label>
+                <ComboBox Width="100" SelectedIndex="0">
+                    <ComboBoxItem Content="Telnet"></ComboBoxItem>
+                    <ComboBoxItem Content="TL1"></ComboBoxItem>
+                </ComboBox>
+                <Button Content="Connect" Background="LightGray"></Button>
+            </ToolBar>
+        </ToolBarTray>
+        <avalonDock:DockingManager x:Name="dockingManager" Grid.Row="2">
+            <avalonDock:LayoutRoot>
+                <avalonDock:LayoutPanel Orientation="Horizontal" x:Name="LayoutPane">
+                    <!--<avalonDock:LayoutAnchorablePane DockWidth="250" >
+                        <avalonDock:LayoutAnchorable Title="Sanity Suite Explorer">
+                            <ssct:SanitySuitExplorer x:Name="SanitySuitTree"></ssct:SanitySuitExplorer>
+                        </avalonDock:LayoutAnchorable>
+                    </avalonDock:LayoutAnchorablePane>-->
+
+                    <avalonDock:LayoutDocumentPane x:Name="LayoutDocumentPane">
+                    </avalonDock:LayoutDocumentPane>
+
+
+                   
+                        <avalonDock:LayoutAnchorablePaneGroup DockWidth="250" Orientation="Vertical" >
+                            
+                            <avalonDock:LayoutAnchorablePane>
+                            <avalonDock:LayoutAnchorable Title="Server Sessions">
+                                <sessions:SessionExplorer x:Name="SessionExplorer"></sessions:SessionExplorer>
+                            </avalonDock:LayoutAnchorable>
+                            <avalonDock:LayoutAnchorable Title="Product Explporer">
+                                    <ipe:IPExplorer x:Name="IPExplorer" ></ipe:IPExplorer>
+                                </avalonDock:LayoutAnchorable>
+                            </avalonDock:LayoutAnchorablePane>
+                            
+                            <!--<avalonDock:LayoutAnchorablePane>
+                                <avalonDock:LayoutAnchorable Title="Task Schedular">
+                                    <schedularns:SchedularExplorer x:Name="SchedularExp"></schedularns:SchedularExplorer>
+                                </avalonDock:LayoutAnchorable>
+                            </avalonDock:LayoutAnchorablePane>-->
+                        </avalonDock:LayoutAnchorablePaneGroup>
+                   
+                </avalonDock:LayoutPanel>
+                <!--
+                    <avalonDock:LayoutAnchorSide>
+                        <avalonDock:LayoutAnchorGroup>
+                            <avalonDock:LayoutAnchorable Title="Server Sessions">
+                                <TextBox/>
+                            </avalonDock:LayoutAnchorable>
+                            <avalonDock:LayoutAnchorable Title="Autohidden Content">
+                                <TextBox/>
+                            </avalonDock:LayoutAnchorable>
+                        </avalonDock:LayoutAnchorGroup>
+                    </avalonDock:LayoutAnchorSide>
+                </avalonDock:LayoutRoot.RightSide>-->
+            </avalonDock:LayoutRoot>
+        </avalonDock:DockingManager>
+        <StatusBar Grid.Row="3"></StatusBar>
+    </Grid>
+
+</Window>

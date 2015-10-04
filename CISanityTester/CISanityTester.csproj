@@ -1,0 +1,268 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{FCCF4A8F-ABBD-44DD-847B-4B316A3CDA7F}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>CISanityTester</RootNamespace>
+    <AssemblyName>CISanityTester</AssemblyName>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <WarningLevel>4</WarningLevel>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>logo.ico</ApplicationIcon>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject>CISanityTester.App</StartupObject>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Runtime.Remoting" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xaml">
+      <RequiredTargetFramework>4.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="WindowsBase" />
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+    <Reference Include="Xceed.Wpf.AvalonDock">
+      <HintPath>..\..\AvalonDock_2_0_2000\Xceed.Wpf.AvalonDock.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <ApplicationDefinition Include="App.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </ApplicationDefinition>
+    <Compile Include="GUIBase\HierarchicalObjectViewModel.cs" />
+    <Compile Include="GUIBase\ObjectTreeExplorer.xaml.cs">
+      <DependentUpon>ObjectTreeExplorer.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="InfineraProductExplorer\EquipmentBaseController.cs" />
+    <Compile Include="InfineraProductExplorer\InstallNewBuildDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="InfineraProductExplorer\InstallNewBuildDialog.Designer.cs">
+      <DependentUpon>InstallNewBuildDialog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="InfineraProductExplorer\IPExplorer.cs" />
+    <Compile Include="InfineraProductExplorer\NE_Control.cs" />
+    <Compile Include="SanitySuitTree\SanitySuitExplorer.cs" />
+    <Compile Include="Schedular\SchedularExplorer.cs" />
+    <Compile Include="Sessions\TelnetSessionNS\TarminalLayoutDocumentNS\TerminalNS\BufferString.cs" />
+    <Compile Include="Sessions\TelnetSessionNS\TarminalLayoutDocumentNS\TerminalLayoutDocument.cs" />
+    <Compile Include="Sessions\TelnetSessionNS\TarminalLayoutDocumentNS\TerminalNS\LogFileWriter.cs" />
+    <Compile Include="Sessions\SessionExplorer.cs" />
+    <Compile Include="Sessions\SessionProperty.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Sessions\SessionProperty.Designer.cs">
+      <DependentUpon>SessionProperty.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Sessions\TelnetSessionNS\TarminalLayoutDocumentNS\TerminalNS\TerminalBox.xaml.cs">
+      <DependentUpon>TerminalBox.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Sessions\TelnetSessionNS\TarminalLayoutDocumentNS\TerminalNS\TerminalRichTextBox.xaml.cs">
+      <DependentUpon>TerminalRichTextBox.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SingleInstance.cs" />
+    <Compile Include="Template\Entities\Build.cs" />
+    <Compile Include="SanitySuitTree\BuildTreeEntity\BuildControl.cs" />
+    <Compile Include="SanitySuitTree\BuildTreeEntity\BuildPropertyWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SanitySuitTree\BuildTreeEntity\BuildPropertyWindow.Designer.cs">
+      <DependentUpon>BuildPropertyWindow.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Template\Entities\BaseEntity.cs" />
+    <Compile Include="Template\Entities\InfineraProductLine\Chassis\XTC\AOLM.cs" />
+    <Compile Include="Template\Entities\InfineraProductLine\Card.cs" />
+    <Compile Include="Template\Entities\InfineraProductLine\Chassis\Chassis.cs" />
+    <Compile Include="Template\Entities\InfineraProductLine\Chassis\XTC\OTM\OTM_Card.cs" />
+    <Compile Include="Template\Entities\InfineraProductLine\Chassis\XTC\OTM\TIM.cs" />
+    <Compile Include="Template\Entities\InfineraProductLine\Chassis\XTC\OTM\TOM.cs" />
+    <Compile Include="Template\Entities\InfineraProductLine\NetworkElement.cs" />
+    <Compile Include="Template\Entities\InfineraProductLine\Chassis\XTC\XCM.cs" />
+    <Compile Include="Template\Entities\InfineraProductLine\Chassis\XTC\Chassis_XTC-4.cs" />
+    <Compile Include="Template\Entities\Sanity.cs" />
+    <Compile Include="Template\Entities\ServerSession.cs" />
+    <Compile Include="Template\Entities\TestScript.cs" />
+    <Compile Include="Template\Template.cs" />
+    <Compile Include="Template\TemplateFileHandler.cs" />
+    <Compile Include="Sessions\TelnetSessionNS\TelnetSession.cs" />
+    <Page Include="GUIBase\ObjectTreeExplorer.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="MainWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Compile Include="App.xaml.cs">
+      <DependentUpon>App.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="MainWindow.xaml.cs">
+      <DependentUpon>MainWindow.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Page Include="Sessions\TelnetSessionNS\TarminalLayoutDocumentNS\TerminalNS\TerminalBox.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Sessions\TelnetSessionNS\TarminalLayoutDocumentNS\TerminalNS\TerminalRichTextBox.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <EmbeddedResource Include="InfineraProductExplorer\InstallNewBuildDialog.resx">
+      <DependentUpon>InstallNewBuildDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SanitySuitTree\BuildTreeEntity\BuildPropertyWindow.resx">
+      <DependentUpon>BuildPropertyWindow.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sessions\SessionProperty.resx">
+      <DependentUpon>SessionProperty.cs</DependentUpon>
+    </EmbeddedResource>
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <AppDesigner Include="Properties\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Images\Application\Logo\servers.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="ObjectPropertiesExplorer\" />
+    <Folder Include="Template\Entities\InfineraProductLine\Chassis\DTC\" />
+    <Folder Include="Template\Entities\InfineraProductLine\Chassis\MTC\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Images\Application\TreeNode.bmp" />
+    <Resource Include="Resources\Images\Application\NE.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include=".NETFramework,Version=v4.5.2">
+      <Visible>False</Visible>
+      <ProductName>Microsoft .NET Framework 4.5.2 %28x86 and x64%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Images\ServerSession\console-add.png" />
+    <Resource Include="Resources\Images\ServerSession\console.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Images\ServerSession\ConSessionIcon.png" />
+    <Resource Include="Resources\Images\ServerSession\DisSessionIcon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\..\TelnetExpect v1.0\telnetexpect-76924\source\Telnet\Telnet.csproj">
+      <Project>{013a7db2-c3e1-4dfd-ad66-3f1ec7b9bd66}</Project>
+      <Name>Telnet</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Images\Application\Logo\logo.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Images\ServerSession\terminal.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Images\Application\Logo\logo.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Images\Application\Toolbar\NewFile_6276.png" />
+    <Resource Include="Resources\Images\Application\Toolbar\NewFile_6276_32.bmp" />
+    <Resource Include="Resources\Images\Application\Toolbar\NewProject_6284_32.bmp" />
+    <Resource Include="Resources\Images\Application\Toolbar\NewSolutionFolder_6289_32.bmp" />
+    <Resource Include="Resources\Images\Application\Toolbar\openHS.png" />
+    <Resource Include="Resources\Images\Application\Toolbar\saveHS.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="logo.ico" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
