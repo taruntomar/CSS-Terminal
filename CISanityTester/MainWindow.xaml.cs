@@ -87,9 +87,6 @@ namespace CISanityTester
                 SessionExplorer.LoadSessionsFromTemplate();
                 IPExplorer.LoadIPFromTemplate();
             }
-
-
-            
         }
 
         private void CloseTemplateMenuButton_Click(object sender, RoutedEventArgs e)
