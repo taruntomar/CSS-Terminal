@@ -1,16 +1,16 @@
-﻿<Window x:Class="CISanityTester.MainWindow"
+﻿<Window x:Class="CSSTerminal.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:CISanityTester"
+        xmlns:local="clr-namespace:CSSTerminal"
         xmlns:avalonDock="http://schemas.xceed.com/wpf/xaml/avalondock"
-        xmlns:sessions="clr-namespace:CISanityTester.Sessions"
-        xmlns:ipe="clr-namespace:CISanityTester.InfineraProductExplorer"
-        xmlns:ssct="clr-namespace:CISanityTester.SanitySuitTree"
-        xmlns:schedularns="clr-namespace:CISanityTester.Schedular"
+        xmlns:sessions="clr-namespace:CSSTerminal.Sessions"
+        xmlns:ipe="clr-namespace:CSSTerminal.InfineraProductExplorer"
+        xmlns:ssct="clr-namespace:CSSTerminal.SanitySuitTree"
+        xmlns:schedularns="clr-namespace:CSSTerminal.Schedular"
         mc:Ignorable="d" 
-        Title="CI Sanity Suit" WindowState="Maximized" Icon=".\Resources\Images\Application\Logo\logo.ico">
+        Title="CSS Terminal" WindowState="Maximized" Icon=".\Resources\Images\Application\Logo\logo.ico">
     <Window.CommandBindings>
         <CommandBinding Command="New" Executed="CMD_New_Template" />
         <CommandBinding Command="Open" Executed="CMD_Open_Template" />
@@ -31,7 +31,7 @@
         </Grid.RowDefinitions>
         <Menu IsMainMenu="True" Grid.Row="0">
             <MenuItem Header="File">
-                <MenuItem x:Name="NewTemplateMenuButton" Header="New Temlate"  InputGestureText="Ctrl+Shift+N">
+                <MenuItem x:Name="NewTemplateMenuButton" Header="New Temlate" Command="New" InputGestureText="Ctrl+Shift+N">
                     <MenuItem.Icon>
                         <Image Width="16" Height="16" Source=".\Resources\Images\Application\Toolbar\NewFile_6276_32.bmp" />
                     </MenuItem.Icon>
@@ -118,7 +118,7 @@
                         </Image.Style>
                     </Image>
                 </Button>
-                <Button Name="CloseButton"  Command="Save" IsEnabled="False">
+                <Button Name="CloseButton"  Click="CloseTemplateMenuButton_Click" IsEnabled="False">
                     <Image Source=".\Resources\Images\Application\Toolbar\Close_Template.bmp" Height="16" Width="16">
                         <Image.Style>
                             <Style TargetType="Image">

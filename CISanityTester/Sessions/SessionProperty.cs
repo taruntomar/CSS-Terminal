@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Forms;
 
-namespace CISanityTester.Sessions
+namespace CSSTerminal.Sessions
 {
     partial class SessionProperty : Form
     {

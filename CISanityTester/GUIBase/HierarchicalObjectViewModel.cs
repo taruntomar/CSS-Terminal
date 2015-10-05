@@ -3,7 +3,7 @@ using System.Collections.ObjectModel;
 using System.Windows.Controls;
 using System.Windows.Data;
 
-namespace CISanityTester.GUIBase
+namespace CSSTerminal.GUIBase
 {
     public class HierarchicalObjectViewModel
     {

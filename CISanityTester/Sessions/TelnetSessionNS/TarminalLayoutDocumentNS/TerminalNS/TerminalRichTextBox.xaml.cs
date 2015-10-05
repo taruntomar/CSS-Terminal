@@ -7,7 +7,7 @@ using System.Windows.Controls;
 using System.Windows.Documents;
 using System.Windows.Input;
 
-namespace CISanityTester.Sessions.TelnetSessionNS.TarminalLayoutDocumentNS.TerminalNS
+namespace CSSTerminal.Sessions.TelnetSessionNS.TarminalLayoutDocumentNS.TerminalNS
 {
     /// <summary>
     /// Interaction logic for TerminalRichTextBox.xaml

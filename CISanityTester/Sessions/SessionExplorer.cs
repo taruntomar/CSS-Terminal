@@ -1,6 +1,6 @@
-﻿using CISanityTester.GUIBase;
-using CISanityTester.Template;
-using CISanityTester.Template.Entities;
+﻿using CSSTerminal.GUIBase;
+using CSSTerminal.Template;
+using CSSTerminal.Template.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,7 +8,7 @@ using System.Windows;
 using System.Windows.Controls;
 using Xceed.Wpf.AvalonDock.Layout;
 
-namespace CISanityTester.Sessions
+namespace CSSTerminal.Sessions
 {
     public class SessionExplorer :ObjectTreeExplorer
     {

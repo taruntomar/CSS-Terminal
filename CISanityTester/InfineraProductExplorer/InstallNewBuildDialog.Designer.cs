@@ -1,4 +1,4 @@
-﻿namespace CISanityTester.InfineraProductExplorer
+﻿namespace CSSTerminal.InfineraProductExplorer
 {
     partial class InstallNewBuildDialog
     {

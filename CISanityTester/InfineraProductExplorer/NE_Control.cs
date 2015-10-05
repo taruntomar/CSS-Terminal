@@ -1,12 +1,12 @@
-﻿using CISanityTester.GUIBase;
-using CISanityTester.Template.Entities.InfineraProductLine;
+﻿using CSSTerminal.GUIBase;
+using CSSTerminal.Template.Entities.InfineraProductLine;
 using System.Windows.Controls;
 using System.Windows;
 using System.Threading;
 using System.ComponentModel;
-using CISanityTester.Template;
+using CSSTerminal.Template;
 
-namespace CISanityTester.InfineraProductExplorer
+namespace CSSTerminal.InfineraProductExplorer
 {
     class NE_Control:EquipmentBaseController
     {

@@ -1,5 +1,5 @@
-﻿using CISanityTester.Sessions;
-using CISanityTester.Template;
+﻿using CSSTerminal.Sessions;
+using CSSTerminal.Template;
 using System.ComponentModel;
 using System.Drawing;
 using System.Windows;
@@ -9,7 +9,7 @@ using System.Windows.Forms;
 using System.Reflection;
 using System.Collections.Generic;
 
-namespace CISanityTester
+namespace CSSTerminal
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml

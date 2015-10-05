@@ -7,7 +7,7 @@ using System.Reflection;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace CISanityTester
+namespace CSSTerminal
 {
     partial class ApplicationAboutBox : Form
     {

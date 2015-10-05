@@ -1,13 +1,13 @@
-﻿using CISanityTester.GUIBase;
-using CISanityTester.SanitySuitTree.BuildTreecontrol;
-using CISanityTester.Template;
-using CISanityTester.Template.Entities;
+﻿using CSSTerminal.GUIBase;
+using CSSTerminal.SanitySuitTree.BuildTreecontrol;
+using CSSTerminal.Template;
+using CSSTerminal.Template.Entities;
 using System;
 using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
 
-namespace CISanityTester.SanitySuitTree
+namespace CSSTerminal.SanitySuitTree
 {
     class SanitySuitExplorer:ObjectTreeExplorer
     {

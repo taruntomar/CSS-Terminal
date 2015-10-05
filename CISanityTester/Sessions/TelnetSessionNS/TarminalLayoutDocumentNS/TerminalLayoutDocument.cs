@@ -1,9 +1,9 @@
-﻿using CISanityTester.Sessions.TelnetSessionNS.TarminalLayoutDocumentNS.TerminalNS;
+﻿using CSSTerminal.Sessions.TelnetSessionNS.TarminalLayoutDocumentNS.TerminalNS;
 using System;
 using System.Windows.Media.Imaging;
 using Xceed.Wpf.AvalonDock.Layout;
 
-namespace CISanityTester.Sessions.TelnetSessionNS.TermianlLayoutDocumentNS
+namespace CSSTerminal.Sessions.TelnetSessionNS.TermianlLayoutDocumentNS
 {
     public class TermianlLayoutDocument : LayoutDocument, IDisposable
     {

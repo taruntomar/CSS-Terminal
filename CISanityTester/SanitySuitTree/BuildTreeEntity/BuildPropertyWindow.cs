@@ -7,7 +7,7 @@ using System.Reflection;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace CISanityTester.SanitySuitTree.BuildTreecontrol
+namespace CSSTerminal.SanitySuitTree.BuildTreecontrol
 {
     partial class BuildPropertyWindow : Form
     {

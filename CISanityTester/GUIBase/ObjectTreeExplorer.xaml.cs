@@ -13,7 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace CISanityTester.GUIBase
+namespace CSSTerminal.GUIBase
 {
     /// <summary>
     /// Interaction logic for ObjectTreeExplorer.xaml

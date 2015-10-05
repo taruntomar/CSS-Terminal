@@ -10,7 +10,7 @@ using System.Windows.Controls;
 using System.Windows.Documents;
 using TelnetExpect;
 
-namespace CISanityTester.Sessions.TelnetSessionNS.TarminalLayoutDocumentNS.TerminalNS
+namespace CSSTerminal.Sessions.TelnetSessionNS.TarminalLayoutDocumentNS.TerminalNS
 {
     /// <summary>
     /// Interaction logic for TerminalBox.xaml

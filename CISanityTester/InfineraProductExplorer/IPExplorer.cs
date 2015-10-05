@@ -1,8 +1,8 @@
-﻿using CISanityTester.GUIBase;
+﻿using CSSTerminal.GUIBase;
 using System.Windows.Input;
 using System;
 
-namespace CISanityTester.InfineraProductExplorer
+namespace CSSTerminal.InfineraProductExplorer
 {
     public class IPExplorer:ObjectTreeExplorer
     {

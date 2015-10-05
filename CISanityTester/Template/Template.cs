@@ -1,8 +1,8 @@
-﻿using CISanityTester.Template.Entities;
-using CISanityTester.Template.Entities.InfineraProductLine;
+﻿using CSSTerminal.Template.Entities;
+using CSSTerminal.Template.Entities.InfineraProductLine;
 using System.Collections.Generic;
 
-namespace CISanityTester.Template
+namespace CSSTerminal.Template
 {
     //[System.Serializable]
     //[System.Xml.Serialization.XmlInclude(typeof(Build))]

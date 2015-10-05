@@ -1,8 +1,8 @@
 ﻿
-using CISanityTester.GUIBase;
-using CISanityTester.Sessions;
-using CISanityTester.Template;
-using CISanityTester.Template.Entities.InfineraProductLine;
+using CSSTerminal.GUIBase;
+using CSSTerminal.Sessions;
+using CSSTerminal.Template;
+using CSSTerminal.Template.Entities.InfineraProductLine;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -10,7 +10,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CISanityTester.InfineraProductExplorer
+namespace CSSTerminal.InfineraProductExplorer
 {
     public class EquipmentBaseController
     {

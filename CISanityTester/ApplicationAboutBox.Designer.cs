@@ -1,4 +1,4 @@
-﻿namespace CISanityTester
+﻿namespace CSSTerminal
 {
     partial class ApplicationAboutBox
     {

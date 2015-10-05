@@ -7,7 +7,7 @@ using System.Reflection;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace CISanityTester.InfineraProductExplorer
+namespace CSSTerminal.InfineraProductExplorer
 {
     public enum InstallationMode
     {

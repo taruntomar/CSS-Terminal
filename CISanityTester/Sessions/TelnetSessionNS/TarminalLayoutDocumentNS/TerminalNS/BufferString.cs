@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CISanityTester.Sessions
+namespace CSSTerminal.Sessions
 {
     public class BufferString
     {

@@ -1,4 +1,4 @@
-﻿using CISanityTester.Template.Entities;
+﻿using CSSTerminal.Template.Entities;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -7,12 +7,12 @@ using System.Windows.Forms;
 using System.Xml;
 using System.Xml.Serialization;
 
-namespace CISanityTester.Template
+namespace CSSTerminal.Template
 {
     public class TemplateFileHandler
     {
         public Template CurrentTemplate { get; set; }
-        public string TemplateAbsolutePath { get; set; }  // ex: C:\Users\ttomar\Documents\CISanityTester\DailyPPCSanity\
+        public string TemplateAbsolutePath { get; set; }  // ex: C:\Users\ttomar\Documents\CSSTerminal\DailyPPCSanity\
         public string TemplateFileName { get; set; } //ex: DailyPPCSanity.xml
 
         private static TemplateFileHandler obj = null;
@@ -68,7 +68,7 @@ namespace CISanityTester.Template
 
         internal Template GenetareDefaultTemplate()
         {
-            //TemplateAbsolutePath = @"C:\Users\ttomar\Documents\CISanityTester\DailyPPCSanity\";
+            //TemplateAbsolutePath = @"C:\Users\ttomar\Documents\CSSTerminal\DailyPPCSanity\";
             //TemplateFileName = "DailyPPCSanity.xml";
 
             Template template = new Template();
@@ -100,12 +100,13 @@ namespace CISanityTester.Template
         {
             if (TemplateAbsolutePath == null || TemplateAbsolutePath == String.Empty || TemplateAbsolutePath.Trim().Length == 0)
                 SaveAs();
-            
+            CreateXML(CurrentTemplate);
         }
 
         internal void SaveAs()
         {
             SaveFileDialog dlg = new SaveFileDialog();
+            dlg.Filter = "*.xml|*.xml";
             if (dlg.ShowDialog() == DialogResult.OK)
             {
                 TemplateFileName =    Path.GetFileName(dlg.FileName);

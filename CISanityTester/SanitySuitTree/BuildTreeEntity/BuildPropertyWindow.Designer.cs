@@ -1,4 +1,4 @@
-﻿namespace CISanityTester.SanitySuitTree.BuildTreecontrol
+﻿namespace CSSTerminal.SanitySuitTree.BuildTreecontrol
 {
     partial class BuildPropertyWindow
     {

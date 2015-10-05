@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CISanityTester.Template.Entities.InfineraProductLine
+namespace CSSTerminal.Template.Entities.InfineraProductLine
 {
     public class NetworkElement :BaseEntity
     {

@@ -1,9 +1,9 @@
 ﻿
-using CISanityTester.Sessions.TelnetSessionNS.TermianlLayoutDocumentNS;
+using CSSTerminal.Sessions.TelnetSessionNS.TermianlLayoutDocumentNS;
 using System;
 using System.Collections.Generic;
 
-namespace CISanityTester.Sessions
+namespace CSSTerminal.Sessions
 {
     public class TelnetSession:IDisposable
     {
