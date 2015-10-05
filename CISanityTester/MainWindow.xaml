@@ -11,71 +11,141 @@
         xmlns:schedularns="clr-namespace:CISanityTester.Schedular"
         mc:Ignorable="d" 
         Title="CI Sanity Suit" WindowState="Maximized" Icon=".\Resources\Images\Application\Logo\logo.ico">
+    <Window.CommandBindings>
+        <CommandBinding Command="New" Executed="CMD_New_Template" />
+        <CommandBinding Command="Open" Executed="CMD_Open_Template" />
+        <CommandBinding Command="Save" Executed="CMD_Save_Template" />
+    </Window.CommandBindings>
+    <Window.InputBindings>
+        <KeyBinding Key="N" Modifiers="Ctrl+Shift"  Command="New"/>
+        <KeyBinding Key="O" Modifiers="Ctrl+Shift"  Command="Open"/>
+        <KeyBinding Key="S" Modifiers="Ctrl+Shift"  Command="Save"/>
+    </Window.InputBindings>
     <Grid>
-        
+       
         <Grid.RowDefinitions>
-            <RowDefinition Height="28"></RowDefinition>
+            <RowDefinition Height="25"></RowDefinition>
             <RowDefinition Height="30"></RowDefinition>
             <RowDefinition Height="*"></RowDefinition>
             <RowDefinition Height="22"></RowDefinition>
         </Grid.RowDefinitions>
         <Menu IsMainMenu="True" Grid.Row="0">
             <MenuItem Header="File">
-                <MenuItem Header="New Template" />
-                <MenuItem x:Name="OpenTemplateMenuButton" Header="Open Template" Click="OpenTemplateMenuButton_Click"/>
-                <MenuItem x:Name="SaveTemplateMenuButton" Header="Save Template" Click="SaveTemplateMenuButton_Click" />
-                <MenuItem Header="Save As.." />
-                <MenuItem Header="Sync with P4" />
-                <MenuItem x:Name="CloseTemplateMenuButton" Header="Close" Click="CloseTemplateMenuButton_Click" />
-                <MenuItem Header="Exit" />
+                <MenuItem x:Name="NewTemplateMenuButton" Header="New Temlate"  InputGestureText="Ctrl+Shift+N">
+                    <MenuItem.Icon>
+                        <Image Width="16" Height="16" Source=".\Resources\Images\Application\Toolbar\NewFile_6276_32.bmp" />
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem x:Name="OpenTemplateMenuButton" Header="Open Template" Command="Open"  InputGestureText="Ctrl+Shift+O" >
+                    <MenuItem.Icon>
+                        <Image Width="16" Height="16" Source=".\Resources\Images\Application\Toolbar\openHS.png" />
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem x:Name="SaveTemplateMenuButton" Header="Save Template" Command="Save"  InputGestureText="Ctrl+Shift+S" IsEnabled="False" >
+                    <MenuItem.Icon>
+                        <Image Width="16" Height="16" Source=".\Resources\Images\Application\Toolbar\saveHS.png" >
+                            <Image.Style>
+                                <Style TargetType="Image">
+                                    <Style.Triggers>
+                                        <Trigger Property="IsEnabled" Value="False">
+                                            <Setter Property="Opacity" Value="0.5" />
+                                        </Trigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Image.Style>
+                        </Image>
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem x:Name="SaveAsTemplateMenuButton" Header="Save As.." IsEnabled="False" Click="SaveAsTemplateMenuButton_Click"/>
+                <!--<MenuItem Header="Sync with P4" />-->
+                <MenuItem x:Name="CloseTemplateMenuButton" Header="Close" Click="CloseTemplateMenuButton_Click" IsEnabled="False">
+                    <MenuItem.Icon>
+                        <Image Width="16" Height="16" Source=".\Resources\Images\Application\Toolbar\Close_Template.bmp" >
+                            <Image.Style>
+                                <Style TargetType="Image">
+                                    <Style.Triggers>
+                                        <Trigger Property="IsEnabled" Value="False">
+                                            <Setter Property="Opacity" Value="0.5" />
+                                        </Trigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Image.Style>
+                        </Image>
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem x:Name="ExitApplicationMenuButton" Header="Exit" Click="ExitApplicationMenuButton_Click" />
             </MenuItem>
             <MenuItem Header="View">
-                <MenuItem Header="Server Sessions" />
-                <MenuItem Header="Reports" />
-                <MenuItem Header="Sanity Suit Explorer" />
+                <MenuItem x:Name="MenuButton_View_ServerSession" Header="Server Sessions" Click="SwitchServerSessionExplorer" IsCheckable="True" IsChecked="False"/>
+                <!--<MenuItem Header="Reports" />
+                <MenuItem Header="Sanity Suit Explorer" />-->
                 <MenuItem Header="Toolbars">
-                    <MenuItem Header="Basic"></MenuItem>
+                    <MenuItem Header="Template Handler"></MenuItem>
                     <MenuItem Header="Quick Connect"></MenuItem>
                 </MenuItem>
             </MenuItem>
-            <MenuItem Header="Tool">
+            <!--<MenuItem Header="Tool">
                 <MenuItem Header="Analyser" />
                 <MenuItem Header="Options" />
-            </MenuItem>
+            </MenuItem>-->
 
             <MenuItem Header="Help">
-                <MenuItem Header="Search" />
+                <!--<MenuItem Header="Search" />-->
                 <MenuItem Header="View Help" />
-                <MenuItem Header="About CI Sanity Suit" />
+                <MenuItem Header="About CI Sanity Suit" Click="MenuItem_Click" />
             </MenuItem>
         </Menu>
-        <ToolBarTray  Grid.Row="1" VerticalAlignment="Top" >
+        <ToolBarTray  Grid.Row="1" VerticalAlignment="Top" Background="WhiteSmoke" >
             <ToolBar Name="MyToolbar" Background="WhiteSmoke">
-                <Button Name="OpenButton">
+                <Button Name="NewToolBarButton" Command="New" >
                     <Image Source=".\Resources\Images\Application\Toolbar\NewFile_6276_32.bmp" Height="16" Width="16" />
+                        
+                    
                 </Button>
-                <Button Name="CloseButton" Click="OpenTemplateMenuButton_Click">
+                <Button Name="OpenToolBarButton" Command="Open">
                     <Image Source=".\Resources\Images\Application\Toolbar\OpenHS.png" Height="16" Width="16"  />
                 </Button>
-                <Button Name="ExitButton"  >
-                    <Image Source=".\Resources\Images\Application\Toolbar\SaveHS.png" Height="16" Width="16"/>
+                <Button Name="SaveButton"  Command="Save" IsEnabled="False">
+                    <Image Source=".\Resources\Images\Application\Toolbar\SaveHS.png" Height="16" Width="16" >
+                        <Image.Style>
+                            <Style TargetType="Image">
+                                <Style.Triggers>
+                                    <Trigger Property="IsEnabled" Value="False">
+                                        <Setter Property="Opacity" Value="0.5" />
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Image.Style>
+                    </Image>
                 </Button>
-                
+                <Button Name="CloseButton"  Command="Save" IsEnabled="False">
+                    <Image Source=".\Resources\Images\Application\Toolbar\Close_Template.bmp" Height="16" Width="16">
+                        <Image.Style>
+                            <Style TargetType="Image">
+                                <Style.Triggers>
+                                    <Trigger Property="IsEnabled" Value="False">
+                                        <Setter Property="Opacity" Value="0.5" />
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Image.Style>
+                    </Image>
+                </Button>
             </ToolBar >
             <ToolBar Background="WhiteSmoke">
                 <Label Content="Quick Connect:"></Label>
-                <TextBox Width="200"></TextBox>
+                <TextBox x:Name="Toolbar_QuickConnect_ServerIPTextBox" Width="200"></TextBox>
                 <Label Content="Port:"></Label>
-                <TextBox Width="50"></TextBox>
+                <TextBox x:Name="Toolbar_QuickConnect_ServerportTextBox" Width="50"></TextBox>
                 <Label Content="Type:"></Label>
-                <ComboBox Width="100" SelectedIndex="0">
+                <ComboBox x:Name="Toolbar_QuickConnect_ServerClientTextBox" Width="100" SelectedIndex="0">
                     <ComboBoxItem Content="Telnet"></ComboBoxItem>
                     <ComboBoxItem Content="TL1"></ComboBoxItem>
                 </ComboBox>
-                <Button Content="Connect" Background="LightGray"></Button>
+                <Button x:Name="QuickConnectToolBarButton" Content="Connect" Background="LightGray" Click="QuickConnectToolBarButton_Click" ></Button>
             </ToolBar>
         </ToolBarTray>
-        <avalonDock:DockingManager x:Name="dockingManager" Grid.Row="2">
+        <avalonDock:DockingManager x:Name="dockingManager" Grid.Row="2" Background="WhiteSmoke">
             <avalonDock:LayoutRoot>
                 <avalonDock:LayoutPanel Orientation="Horizontal" x:Name="LayoutPane">
                     <!--<avalonDock:LayoutAnchorablePane DockWidth="250" >
@@ -88,25 +158,6 @@
                     </avalonDock:LayoutDocumentPane>
 
 
-                   
-                        <avalonDock:LayoutAnchorablePaneGroup DockWidth="250" Orientation="Vertical" >
-                            
-                            <avalonDock:LayoutAnchorablePane>
-                            <avalonDock:LayoutAnchorable Title="Server Sessions">
-                                <sessions:SessionExplorer x:Name="SessionExplorer"></sessions:SessionExplorer>
-                            </avalonDock:LayoutAnchorable>
-                            <avalonDock:LayoutAnchorable Title="Product Explporer">
-                                    <ipe:IPExplorer x:Name="IPExplorer" ></ipe:IPExplorer>
-                                </avalonDock:LayoutAnchorable>
-                            </avalonDock:LayoutAnchorablePane>
-                            
-                            <!--<avalonDock:LayoutAnchorablePane>
-                                <avalonDock:LayoutAnchorable Title="Task Schedular">
-                                    <schedularns:SchedularExplorer x:Name="SchedularExp"></schedularns:SchedularExplorer>
-                                </avalonDock:LayoutAnchorable>
-                            </avalonDock:LayoutAnchorablePane>-->
-                        </avalonDock:LayoutAnchorablePaneGroup>
-                   
                 </avalonDock:LayoutPanel>
                 <!--
                     <avalonDock:LayoutAnchorSide>

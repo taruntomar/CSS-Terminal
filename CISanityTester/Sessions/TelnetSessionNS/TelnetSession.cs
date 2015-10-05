@@ -10,7 +10,7 @@ namespace CISanityTester.Sessions
         internal string FontSize;
 
         private TermianlLayoutDocument TerminalLayoutDocumentObj { get; set; }
-
+        private bool LogFileEnable= false;
         public string SessionName { get; set; }
         public string ServerIP { get; set; }
         public string SessionType { get; set; }
@@ -22,21 +22,28 @@ namespace CISanityTester.Sessions
 
         public void Dispose()
         {
+            if (TerminalLayoutDocumentObj != null )
+            {
+                if(TerminalLayoutDocumentObj.IsOpen)
+                TerminalLayoutDocumentObj.Close();
+                TerminalLayoutDocumentObj.Dispose();
+            }
+            
+
             SessionName = null;
             ServerIP = null;
-            TerminalLayoutDocumentObj.Close();
-            TerminalLayoutDocumentObj.Dispose();
-            
+
         }
 
-        public TelnetSession(string ip, int port, string name,string sessionprotocol, bool OpenTerminalLayoutDocument,bool startoncreate)
+        public TelnetSession(string ip, int port, string name,string sessionprotocol, bool OpenTerminalLayoutDocument,bool startoncreate,bool LogFileEnable)
         {
             ServerIP = ip;
             ServerPort = port;
             SessionName = name;
             SessionType = sessionprotocol;
+            this.LogFileEnable = LogFileEnable;
             OnConnectCmdList = new List<string>();
-            TerminalLayoutDocumentObj = new TermianlLayoutDocument(this,OpenTerminalLayoutDocument);
+            TerminalLayoutDocumentObj = new TermianlLayoutDocument(this,OpenTerminalLayoutDocument, LogFileEnable);
 
             if(startoncreate)
             Connect();

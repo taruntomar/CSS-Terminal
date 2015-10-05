@@ -12,9 +12,9 @@ namespace CISanityTester.Sessions.TelnetSessionNS.TermianlLayoutDocumentNS
 
         private TerminalBox TerminalBoxObj = null;
 
-        public TermianlLayoutDocument(TelnetSession session,bool isopen)
+        public TermianlLayoutDocument(TelnetSession session,bool isopen, bool LogFileEnable)
         {
-            TerminalBoxObj = new TerminalBox(session);
+            TerminalBoxObj = new TerminalBox(session, LogFileEnable);
             this.Content = TerminalBoxObj;
             Title = session.SessionName;
             ToolTip = session.ServerIP + ":" + session.ServerPort;
@@ -29,8 +29,12 @@ namespace CISanityTester.Sessions.TelnetSessionNS.TermianlLayoutDocumentNS
 
         public void Open()
         {
-            if (IsOpen)
+            if (IsOpen) {
+                this.IsSelected = true;
                 return;
+            }
+
+              
 
             MainWindow.GetMainWindow().AddServerSession(this);
             IsOpen = true;

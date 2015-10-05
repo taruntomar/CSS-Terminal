@@ -25,7 +25,8 @@ public partial class TerminalBox : UserControl,IDisposable
         private bool _bw_Stop_Flag = false;
         private BackgroundWorker _bw_readstream = null;
         private LogFile logfile = null;
-        public TerminalBox(TelnetSession session)
+        private bool LogFileEnable = false;
+        public TerminalBox(TelnetSession session,bool LogFileEnable)
         {
             Session = session;
             
@@ -34,7 +35,10 @@ public partial class TerminalBox : UserControl,IDisposable
             RichTextBox.WriteInStream += Write;
             //RichTextBox.UpdateCaret += UpdateCaret;
             SetupTextBox();
+            this.LogFileEnable = LogFileEnable;
+            if(LogFileEnable)
             logfile = new LogFile(session);
+
         }
 
         private void SetupTextBox()
@@ -76,40 +80,61 @@ public partial class TerminalBox : UserControl,IDisposable
             {
                 RichTextBox.Write(Encoding.ASCII.GetString(bucket, 0, readLen));
             }));
-            logfile.Write(bucket, readLen);
+            if (LogFileEnable)
+            {
+                if (logfile == null)
+                    logfile = new LogFile(Session);
+                logfile.Write(bucket, readLen);
+            }
+            if (tcpclient == null)
+                return;
             // read stram asynchrounously
             Stream = tcpclient.GetStream();
             foreach (string cmd in Session.OnConnectCmdList) {
                 Write(Encoding.ASCII.GetBytes(cmd));
             }
 
-            while (true)
-            {
-                if (Stream.DataAvailable)
+            try {
+                while (true)
                 {
-                    readLen = Stream.Read(bucket, 0, 1024);
-                    logfile.Write(bucket, readLen);
-                    if ((bucket[0] == 8 && bucket[1]==32 && bucket[2]==8) || (bucket[0] == 27 && bucket[1] == 91 && bucket[2] == 48 && bucket[3] == 68 && bucket[4] == 27))
-                        this.Dispatcher.Invoke((Action)(() =>
-                        {
-                            RichTextBox.BackSpace();
-                        }));
-                    else
-                    this.Dispatcher.Invoke((Action)(() =>
+
+                    if (Stream.DataAvailable)
                     {
-                        RichTextBox.Write(Encoding.ASCII.GetString(bucket, 0, readLen));
-                        
-                    }));
+                        readLen = Stream.Read(bucket, 0, 1024);
+                        if (LogFileEnable)
+                            logfile.Write(bucket, readLen);
+                        if ((bucket[0] == 8 && bucket[1] == 32 && bucket[2] == 8) || (bucket[0] == 27 && bucket[1] == 91 && bucket[2] == 48 && bucket[3] == 68 && bucket[4] == 27))
+                            this.Dispatcher.Invoke((Action)(() =>
+                            {
+                                RichTextBox.BackSpace();
+                            }));
+                        else
+                            this.Dispatcher.Invoke((Action)(() =>
+                            {
+                                RichTextBox.Write(Encoding.ASCII.GetString(bucket, 0, readLen));
+
+                            }));
+                    }
+                    if (_bw_Stop_Flag) // if flag is true then come out of the look, its signal for _bw to stop
+                        break;
+                    Thread.Sleep(100);
                 }
-                if (_bw_Stop_Flag) // if flag is true then come out of the look, its signal for _bw to stop
-                    break;
-                Thread.Sleep(100);
+            }catch(Exception ex)
+            {
+                Trace.Write(ex);
             }
         }
 
         public void Dispose()
         {
             //Stream.Dispose();
+            logfile.Dispose();
+            _bw_Stop_Flag = true;
+            _bw_readstream.CancelAsync();
+            if(Stream!=null)
+            Stream.Dispose();
+            tcpclient = null;
+            
         }
 
         public void Connect()

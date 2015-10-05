@@ -17,6 +17,8 @@ namespace CISanityTester.InfineraProductExplorer
         public void LoadNEs()
         {
             template = TemplateFileHandler.GetTemplateFileHandler().CurrentTemplate;
+            if (template.NEs == null)
+                return;
             foreach (NetworkElement NE in template.NEs)
             {
                 HierarchicalObjectViewModel node = ipexplorer.AddTreeItem(NE.Name);

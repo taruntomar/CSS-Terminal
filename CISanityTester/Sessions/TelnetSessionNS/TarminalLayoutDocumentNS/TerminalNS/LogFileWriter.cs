@@ -27,6 +27,7 @@ namespace CISanityTester.Sessions
 
         internal void Write(byte[] bucket, int readLen)
         {
+            if(LogFileStream!=null)
            LogFileStream.WriteAsync(bucket, 0, readLen);
         }
 

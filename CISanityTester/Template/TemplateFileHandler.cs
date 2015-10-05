@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
+using System.Windows.Forms;
 using System.Xml;
 using System.Xml.Serialization;
 
@@ -38,6 +39,7 @@ namespace CISanityTester.Template
         }
         public void CreateXML(Template template)
         {
+
             XmlDocument xmlDoc = new XmlDocument();   //Represents an XML document, 
                                                       // Initializes a new instance of the XmlDocument class.          
             XmlSerializer xmlSerializer = new XmlSerializer(template.GetType());
@@ -64,38 +66,54 @@ namespace CISanityTester.Template
             stream.Dispose();
         }
 
-        internal void GenetareDefaultTemplate()
+        internal Template GenetareDefaultTemplate()
         {
-            TemplateAbsolutePath = @"C:\Users\ttomar\Documents\CISanityTester\DailyPPCSanity\";
-            TemplateFileName = "DailyPPCSanity.xml";
+            //TemplateAbsolutePath = @"C:\Users\ttomar\Documents\CISanityTester\DailyPPCSanity\";
+            //TemplateFileName = "DailyPPCSanity.xml";
 
             Template template = new Template();
-            template.Builds = new List<Build>();
-            template.Name = "Daily Sanity PPC";
-            Build Build_153 = Create153Build();
-            Build Build_154 = Create154Build();
-            Build Build_161 = Create161Build();
-            template.Builds.Add(Build_153);
-            template.Builds.Add(Build_154);
-            template.Builds.Add(Build_161);
+            //template.Builds = new List<Build>();
+            //template.Name = "Daily Sanity PPC";
+            //Build Build_153 = Create153Build();
+            //Build Build_154 = Create154Build();
+            //Build Build_161 = Create161Build();
+            //template.Builds.Add(Build_153);
+            //template.Builds.Add(Build_154);
+            //template.Builds.Add(Build_161);
             template.ServerSessions = new List<ServerSession>();
-            template.ServerSessions.Add(new ServerSession() { Name = "74-TL1", ServerIP = "10.220.17.74", SessionProtocol="TL1", Port =9090,LoadOnStartup=true });
-            template.ServerSessions.Add(new ServerSession() { Name = "74-Telnet", ServerIP = "10.220.17.74", SessionProtocol = "Telnet", Port = 23, LoadOnStartup = true });
-            template.ServerSessions.Add(new ServerSession() { Name = "74-Serial", ServerIP = "10.220.17.13", SessionProtocol = "Telnet", Port =10015, LoadOnStartup = true });
-            template.ServerSessions.Add(new ServerSession() { Name = "174-TL1", ServerIP = "10.220.16.174", SessionProtocol = "TL1", Port = 9090, LoadOnStartup = true });
-            template.ServerSessions.Add(new ServerSession() { Name = "174-Telnet", ServerIP = "10.220.16.174", SessionProtocol = "Telnet", Port = 23, LoadOnStartup = true });
-            template.ServerSessions.Add(new ServerSession() { Name = "174-Serial", ServerIP = "10.220.17.13", SessionProtocol = "Telnet", Port = 10016, LoadOnStartup = true });
-            template.NEs = new List<Entities.InfineraProductLine.NetworkElement>();
-            template.NEs.Add(new Entities.InfineraProductLine.NetworkElement() { Name = "NE_74",IP="10.220.17.74" });
-            template.NEs.Add(new Entities.InfineraProductLine.NetworkElement() { Name = "NE_174",IP="10.220.16.174" });
+            //template.ServerSessions.Add(new ServerSession() { Name = "74-TL1", ServerIP = "10.220.17.74", SessionProtocol="TL1", Port =9090,LoadOnStartup=true });
+            //template.ServerSessions.Add(new ServerSession() { Name = "74-Telnet", ServerIP = "10.220.17.74", SessionProtocol = "Telnet", Port = 23, LoadOnStartup = true });
+            //template.ServerSessions.Add(new ServerSession() { Name = "74-Serial", ServerIP = "10.220.17.13", SessionProtocol = "Telnet", Port =10015, LoadOnStartup = true });
+            //template.ServerSessions.Add(new ServerSession() { Name = "174-TL1", ServerIP = "10.220.16.174", SessionProtocol = "TL1", Port = 9090, LoadOnStartup = true });
+            //template.ServerSessions.Add(new ServerSession() { Name = "174-Telnet", ServerIP = "10.220.16.174", SessionProtocol = "Telnet", Port = 23, LoadOnStartup = true });
+            //template.ServerSessions.Add(new ServerSession() { Name = "174-Serial", ServerIP = "10.220.17.13", SessionProtocol = "Telnet", Port = 10016, LoadOnStartup = true });
+            //template.NEs = new List<Entities.InfineraProductLine.NetworkElement>();
+            //template.NEs.Add(new Entities.InfineraProductLine.NetworkElement() { Name = "NE_74",IP="10.220.17.74" });
+            //template.NEs.Add(new Entities.InfineraProductLine.NetworkElement() { Name = "NE_174",IP="10.220.16.174" });
+            template.Name = "New Template*";
             CurrentTemplate = template;
-
-            CreateXML(template);
+            return template;
+            //CreateXML(template);
         }
 
         internal void Save()
         {
-            CreateXML(CurrentTemplate);
+            if (TemplateAbsolutePath == null || TemplateAbsolutePath == String.Empty || TemplateAbsolutePath.Trim().Length == 0)
+                SaveAs();
+            
+        }
+
+        internal void SaveAs()
+        {
+            SaveFileDialog dlg = new SaveFileDialog();
+            if (dlg.ShowDialog() == DialogResult.OK)
+            {
+                TemplateFileName =    Path.GetFileName(dlg.FileName);
+                TemplateAbsolutePath = dlg.FileName.Remove(dlg.FileName.Length - TemplateFileName.Length);
+                CurrentTemplate.Name = Path.GetFileNameWithoutExtension(dlg.FileName);
+              Save();
+                
+            }
         }
 
         private static Build Create153Build()

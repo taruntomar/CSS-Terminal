@@ -8,7 +8,7 @@
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>CISanityTester</RootNamespace>
-    <AssemblyName>CISanityTester</AssemblyName>
+    <AssemblyName>CSS Terminal</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -82,6 +82,12 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="ApplicationAboutBox.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ApplicationAboutBox.Designer.cs">
+      <DependentUpon>ApplicationAboutBox.cs</DependentUpon>
+    </Compile>
     <Compile Include="GUIBase\HierarchicalObjectViewModel.cs" />
     <Compile Include="GUIBase\ObjectTreeExplorer.xaml.cs">
       <DependentUpon>ObjectTreeExplorer.xaml</DependentUpon>
@@ -177,6 +183,9 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <EmbeddedResource Include="ApplicationAboutBox.resx">
+      <DependentUpon>ApplicationAboutBox.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="InfineraProductExplorer\InstallNewBuildDialog.resx">
       <DependentUpon>InstallNewBuildDialog.cs</DependentUpon>
     </EmbeddedResource>
@@ -256,6 +265,9 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="logo.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Images\Application\Toolbar\Close_Template.bmp" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

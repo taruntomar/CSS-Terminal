@@ -38,7 +38,7 @@ namespace CISanityTester.Sessions
         {
             if (newsession)
             {
-                telnetsession = new TelnetSession(TextBox_ServerIP.Text, Convert.ToInt32(TextBox_PortNo.Text), TextBox_SessionName.Text,comboBox1.SelectedItem.ToString(), true,true);
+                telnetsession = new TelnetSession(TextBox_ServerIP.Text, Convert.ToInt32(TextBox_PortNo.Text), TextBox_SessionName.Text,comboBox1.SelectedItem.ToString(), true,true,true);
                 telnetsession.OnConnectCmdList.Add(textBox11.Text);
                 telnetsession.OnConnectCmdList.Add(textBox12.Text);
 

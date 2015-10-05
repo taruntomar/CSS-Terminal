@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using Xceed.Wpf.AvalonDock.Layout;
 
 namespace CISanityTester.Sessions
 {
@@ -14,16 +15,51 @@ namespace CISanityTester.Sessions
         public static SessionExplorer obj=null;
         private Template.Template template = null;
         public List<TelnetSession> SessionList { get; set; }
-        
+        private LayoutAnchorable m_layoutanch;
         public SessionExplorer():base()
         {
             SessionList = new List<TelnetSession>();
-            
             ObjectTree.MouseDoubleClick += ObjectTree_MouseDoubleClick;
+           
            // LoadSessionsFromTemplate();
             obj = this;
         }
         
+        internal void ShowExplorer()
+        {
+            if (m_layoutanch == null)
+            {
+                m_layoutanch = new LayoutAnchorable() { Title = "Server Sessions" };
+                m_layoutanch.Hiding += ExplorerClosed;
+            }
+
+            if(m_layoutanch.Content==null)
+                m_layoutanch.Content = this;
+
+           LayoutAnchorablePane anchpane =   MainWindow.GetMainWindow().GetLayoutAnchorablePane();
+            if(!anchpane.Children.Contains(m_layoutanch))
+                anchpane.Children.Add(m_layoutanch);
+        }
+
+        private void ExplorerClosed(object sender, EventArgs e)
+        {
+            MainWindow.GetMainWindow().MenuButton_View_ServerSession.IsChecked = false;
+        }
+
+        internal void HideExplorer()
+        {
+            LayoutAnchorablePane anchpane = MainWindow.GetMainWindow().GetLayoutAnchorablePane();
+
+            if (m_layoutanch != null)
+            {
+                m_layoutanch.Content = null;
+                if (anchpane.Children.Contains(m_layoutanch))
+                    anchpane.Children.Remove(m_layoutanch);
+
+                if (anchpane.Children.Count == 0)
+                    anchpane.Parent.RemoveChild(anchpane);
+            }
+        }
         private void ObjectTree_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
             SelectedSession.Open();
@@ -126,7 +162,7 @@ namespace CISanityTester.Sessions
             {
                 name = ip + ":" + port;
             }
-            TelnetSession telsession = new TelnetSession(ip, port,name,sessionprotocol, openinlayoutdocument,true);
+            TelnetSession telsession = new TelnetSession(ip, port,name,sessionprotocol, openinlayoutdocument,true,true);
             AddSession(telsession,openinlayoutdocument);
 
             return telsession;
@@ -161,6 +197,11 @@ namespace CISanityTester.Sessions
        
         private void DeleteSession(TelnetSession session)
         {
+            var serversessions = from s in template.ServerSessions where s.Name == session.SessionName select s;
+            if (serversessions.Count() == 0)
+                return;
+
+            template.ServerSessions.Remove(serversessions.First());
             SessionList.Remove(session);
             DeleteTreeItem(session.SessionName);
             session.Dispose();

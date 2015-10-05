@@ -7,12 +7,12 @@ using System.Windows;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("CISanityTester")]
-[assembly: AssemblyDescription("A tool for CI Sanity Testing")]
+[assembly: AssemblyTitle("CSS Terminal")]
+[assembly: AssemblyDescription("A telnet clinet for automation testing")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Infinera")]
-[assembly: AssemblyProduct("CISanityTester")]
-[assembly: AssemblyCopyright("Copyright ©  2015")]
+[assembly: AssemblyCompany("Infinera Network")]
+[assembly: AssemblyProduct("CSS Terminal")]
+[assembly: AssemblyCopyright("Copyright ©  2015 Infinera India Pvt. Ltd.")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
