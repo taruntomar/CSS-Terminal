@@ -26,10 +26,12 @@ public partial class TerminalBox : UserControl,IDisposable
         private BackgroundWorker _bw_readstream = null;
         private LogFile logfile = null;
         private bool LogFileEnable = false;
+        private bool autoreconnect = false;
+        private int autoreconnecttime;
         public TerminalBox(TelnetSession session,bool LogFileEnable)
         {
             Session = session;
-            
+            autoreconnecttime = 500;
             InitializeComponent();
             RichTextBox.SetTelnetSession(session);
             RichTextBox.WriteInStream += Write;
@@ -38,7 +40,7 @@ public partial class TerminalBox : UserControl,IDisposable
             this.LogFileEnable = LogFileEnable;
             if(LogFileEnable)
             logfile = new LogFile(session);
-
+            ShowNoConnectionBanner();
         }
 
         private void SetupTextBox()
@@ -52,8 +54,61 @@ public partial class TerminalBox : UserControl,IDisposable
             RichTextBox.GotFocus += (sender, e) => Caret.Visibility = System.Windows.Visibility.Visible;
 
         }
+        private void ShowNoConnectionBanner()
+        {
+            TopGrid.Children.Clear();
+            TextBlock textbox = new TextBlock();
+            textbox.Text = "No Connection";
+            textbox.FontSize = 22;
+            textbox.Margin = new System.Windows.Thickness(10, 20, 0, 0);
 
-      
+            Button button = new Button();
+            button.Content = "Reconnect";
+            button.Margin = new System.Windows.Thickness(10, 20, 0, 0);
+            button.Click += ReconnectButton_Click;
+            button.Width = 100;
+
+            StackPanel panel = new StackPanel();
+            panel.HorizontalAlignment = System.Windows.HorizontalAlignment.Left;
+            panel.Orientation = Orientation.Vertical;
+            panel.Children.Add(textbox);
+            panel.Children.Add(button);
+            
+            TopGrid.Children.Add(panel);
+        }
+
+        private void ReconnectButton_Click(object sender, System.Windows.RoutedEventArgs e)
+        {
+            ShowReconnectingPanel();
+            Connect();
+        }
+
+        private void ShowReconnectingPanel()
+        {
+            StackPanel panel = (StackPanel)TopGrid.Children[0];
+            panel.Children[1].IsEnabled = false;
+            ((Button)panel.Children[1]).Content = "Connecting...";
+
+            if (panel.Children.Count == 3 && panel.Children[2] is ProgressBar)
+                return;
+
+                ProgressBar pbar = new ProgressBar();
+                pbar.IsIndeterminate = true;
+                pbar.Margin = new System.Windows.Thickness(10, 20, 0, 0);
+                pbar.Height = 10;
+                pbar.Width = 350;
+
+                panel.Children.Add(pbar);
+        }
+        private void ShowTerminalRichTextBox()
+        {
+          
+                TopGrid.Children.Clear();
+                TopGrid.Children.Add(RichTextBox);
+                TopGrid.Children.Add(caretcanvas);
+           
+        }
+
         private void ReadStreamInBackgroud(object sender, DoWorkEventArgs e)
         {
             byte[] bucket = new byte[1024];
@@ -61,6 +116,10 @@ public partial class TerminalBox : UserControl,IDisposable
             // check if client is connected,  if not then connect the client
             while (tcpclient == null || !tcpclient.Connected)
             {
+                this.Dispatcher.Invoke((Action)(() =>
+                {
+                    ShowReconnectingPanel();
+                }));
                 tcpclient = new TcpClient();
                 try
                 {
@@ -72,8 +131,25 @@ public partial class TerminalBox : UserControl,IDisposable
                 {
                     Trace.WriteLine(ex.Message);
                 }
-                Thread.Sleep(500);
+
+                if (!autoreconnect)
+                    break;
+                else
+                    Thread.Sleep(autoreconnecttime);
             }
+            if (!tcpclient.Connected)
+            {
+                this.Dispatcher.Invoke((Action)(() =>
+                {
+                    ShowNoConnectionBanner();
+                }));
+                return;
+            }
+            this.Dispatcher.Invoke((Action)(() =>
+            {
+                ShowTerminalRichTextBox();
+            }));
+
             TelnetStream t_stream = new TelnetStream(tcpclient.GetStream());
             readLen= t_stream.Read(bucket, 0, 1024);
             this.Dispatcher.Invoke((Action)(() =>
@@ -147,7 +223,7 @@ public partial class TerminalBox : UserControl,IDisposable
                 _bw_Stop_Flag = true;
                 Thread.Sleep(100);
             }
-
+            
             _bw_readstream = new BackgroundWorker();
             _bw_readstream.WorkerSupportsCancellation = true;
             _bw_Stop_Flag = false;

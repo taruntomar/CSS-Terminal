@@ -147,7 +147,10 @@ namespace CSSTerminal.Sessions
         }
         public TelnetSession SelectedSession {
             get {
+             
                 HierarchicalObjectViewModel model = (HierarchicalObjectViewModel)ObjectTree.SelectedItem;
+                if (model == null)
+                    return null;
                 var list = from session in SessionList where session.SessionName == model.Name select session;
                 if (list.Count() == 0)
                     return null;

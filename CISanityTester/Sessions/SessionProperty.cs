@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Net;
 using System.Windows.Forms;
 
 namespace CSSTerminal.Sessions
@@ -36,6 +37,27 @@ namespace CSSTerminal.Sessions
 
         private void okButton_Click(object sender, EventArgs e)
         {
+            try {
+                IPAddress ip;
+                if(!IPAddress.TryParse(TextBox_ServerIP.Text, out ip))
+                {
+                    MessageBox.Show("IP address is not valid");
+                    return;
+                }else if (TextBox_PortNo.Text.Trim().Length== 0)
+                {
+                    MessageBox.Show("Port Number is not valid");
+                    return;
+                }
+                
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+                return;
+            }
+            
+            
+
             if (newsession)
             {
                 telnetsession = new TelnetSession(TextBox_ServerIP.Text, Convert.ToInt32(TextBox_PortNo.Text), TextBox_SessionName.Text,comboBox1.SelectedItem.ToString(), true,true,true);
