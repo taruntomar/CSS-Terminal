@@ -35,6 +35,7 @@ public partial class TerminalBox : UserControl,IDisposable
             InitializeComponent();
             RichTextBox.SetTelnetSession(session);
             RichTextBox.WriteInStream += Write;
+            RichTextBox.WriteStream += WriteAsync;
             //RichTextBox.UpdateCaret += UpdateCaret;
             SetupTextBox();
             this.LogFileEnable = LogFileEnable;
@@ -85,9 +86,14 @@ public partial class TerminalBox : UserControl,IDisposable
 
         private void ShowReconnectingPanel()
         {
+
             StackPanel panel = (StackPanel)TopGrid.Children[0];
-            panel.Children[1].IsEnabled = false;
-            ((Button)panel.Children[1]).Content = "Connecting...";
+            ((TextBlock)panel.Children[0]).Text = "Connecting...";
+            Button button =  ((Button)panel.Children[1]);
+            button.Content = "Stop";
+            button.Click -= ReconnectButton_Click;
+            button.Click += StopConnecting;
+
 
             if (panel.Children.Count == 3 && panel.Children[2] is ProgressBar)
                 return;
@@ -100,13 +106,18 @@ public partial class TerminalBox : UserControl,IDisposable
 
                 panel.Children.Add(pbar);
         }
+
+        private void StopConnecting(object sender, System.Windows.RoutedEventArgs e)
+        {
+            StopbackgroundThread();
+            ShowNoConnectionBanner();
+        }
+
         private void ShowTerminalRichTextBox()
         {
-          
                 TopGrid.Children.Clear();
                 TopGrid.Children.Add(RichTextBox);
                 TopGrid.Children.Add(caretcanvas);
-           
         }
 
         private void ReadStreamInBackgroud(object sender, DoWorkEventArgs e)
@@ -137,7 +148,8 @@ public partial class TerminalBox : UserControl,IDisposable
                 else
                     Thread.Sleep(autoreconnecttime);
             }
-            if (!tcpclient.Connected)
+            
+            if (tcpclient == null || !tcpclient.Connected)
             {
                 this.Dispatcher.Invoke((Action)(() =>
                 {
@@ -162,14 +174,20 @@ public partial class TerminalBox : UserControl,IDisposable
                     logfile = new LogFile(Session);
                 logfile.Write(bucket, readLen);
             }
-            if (tcpclient == null)
+            if (tcpclient == null || !tcpclient.Connected)
+            {
+                this.Dispatcher.Invoke((Action)(() =>
+                {
+                    ShowNoConnectionBanner();
+                }));
                 return;
+            }
             // read stram asynchrounously
             Stream = tcpclient.GetStream();
             foreach (string cmd in Session.OnConnectCmdList) {
                 Write(Encoding.ASCII.GetBytes(cmd));
             }
-
+            int num = 0;
             try {
                 while (true)
                 {
@@ -182,6 +200,7 @@ public partial class TerminalBox : UserControl,IDisposable
                         if ((bucket[0] == 8 && bucket[1] == 32 && bucket[2] == 8) || (bucket[0] == 27 && bucket[1] == 91 && bucket[2] == 48 && bucket[3] == 68 && bucket[4] == 27))
                             this.Dispatcher.Invoke((Action)(() =>
                             {
+                                Trace.WriteLine("back received: "+ ++num);
                                 RichTextBox.BackSpace();
                             }));
                         else
@@ -191,26 +210,44 @@ public partial class TerminalBox : UserControl,IDisposable
 
                             }));
                     }
+                    
                     if (_bw_Stop_Flag) // if flag is true then come out of the look, its signal for _bw to stop
                         break;
                     Thread.Sleep(100);
+                    if (tcpclient == null || !tcpclient.Connected)
+                    {
+                        this.Dispatcher.Invoke((Action)(() =>
+                        {
+                            ShowNoConnectionBanner();
+                        }));
+                        return;
+                    }
                 }
             }catch(Exception ex)
             {
+               
+                    this.Dispatcher.Invoke((Action)(() =>
+                    {
+                        ShowNoConnectionBanner();
+                    }));
                 Trace.Write(ex);
             }
         }
 
+        private void StopbackgroundThread()
+        {
+            _bw_Stop_Flag = true;
+            _bw_readstream.CancelAsync();
+            if (Stream != null)
+                Stream.Dispose();
+            tcpclient = null;
+        }
         public void Dispose()
         {
             //Stream.Dispose();
             logfile.Dispose();
-            _bw_Stop_Flag = true;
-            _bw_readstream.CancelAsync();
-            if(Stream!=null)
-            Stream.Dispose();
-            tcpclient = null;
-            
+            StopbackgroundThread();
+
         }
 
         public void Connect()
@@ -235,19 +272,51 @@ public partial class TerminalBox : UserControl,IDisposable
         {
             Write(Encoding.ASCII.GetBytes(str));
         }
-        public void Write(byte[] b)
+        public async Task<bool> WriteAsync(byte[] b)
         {
+            
+            byte[] bucket = new byte[1024];
+            int readLen = 0;
             if (Stream == null)
-                return;
+                return false;
             try {
-                Stream.Write(b, 0, b.Length);
+                while (!Stream.CanWrite)
+                    Thread.Sleep(20);
+                await Stream.WriteAsync(b, 0, b.Length);
+                readLen = Stream.Read(bucket, 0, 1024);
+                if (LogFileEnable)
+                    logfile.Write(bucket, readLen);
+                if ((bucket[0] == 8 && bucket[1] == 32 && bucket[2] == 8) || (bucket[0] == 27 && bucket[1] == 91 && bucket[2] == 48 && bucket[3] == 68 && bucket[4] == 27))
+                    this.Dispatcher.Invoke((Action)(() =>
+                    {
+                       // Trace.WriteLine("back received: " + ++num);
+                        RichTextBox.BackSpace();
+                    }));
+                return true;
             }catch(Exception ex)
             {
                 Trace.Write(ex);
                 Connect();
+                return false;
             }
         }
-     
+        public void Write(byte[] b)
+        {
+            if (Stream == null)
+                return;
+            try
+            {
+                Stream.Write(b, 0, b.Length);
+               
+            }
+            catch (Exception ex)
+            {
+                Trace.Write(ex);
+                Connect();
+                
+            }
+        }
+
         internal void MoveCustomCaret()
         {
             var caretLocation = RichTextBox.CaretPosition.GetCharacterRect(LogicalDirection.Forward);

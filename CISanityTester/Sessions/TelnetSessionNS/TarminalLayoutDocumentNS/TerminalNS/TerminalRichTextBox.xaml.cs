@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Text;
 using System.Threading;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
@@ -15,6 +17,8 @@ namespace CSSTerminal.Sessions.TelnetSessionNS.TarminalLayoutDocumentNS.Terminal
     public partial class TerminalRichTextBox : RichTextBox
     {
         public event Action<byte[]> WriteInStream;
+        public delegate Task WriteToStream(byte[] data);
+        public event WriteToStream WriteStream;
         //public event Action UpdateCaret;
         public int endposition=0;
         public int capacity = 10000;
@@ -25,6 +29,7 @@ namespace CSSTerminal.Sessions.TelnetSessionNS.TarminalLayoutDocumentNS.Terminal
         private TelnetSession session;
         private string CommandEndByte;
         private Run HistRun;
+        public bool StreamWritten = false;
         public TerminalRichTextBox()
         {
            
@@ -143,21 +148,27 @@ namespace CSSTerminal.Sessions.TelnetSessionNS.TarminalLayoutDocumentNS.Terminal
                 currentcmd.Append(e.Text);
             }
         }
-
-        private void RTB_PreviewKeyDown(object sender, KeyEventArgs e)
+        int num = 0;
+        private async void RTB_PreviewKeyDown(object sender, KeyEventArgs e)
         {
 
             if (e.Key == Key.Back)
             {
+                
+                //Trace.WriteLine(++num);
+
                 if (ParaText.Inlines.LastInline == HistRun)
                 {
                     ParaText.Inlines.Remove(HistRun);
                     currentcmd.Remove(currentcmd.Length - 1, 1);
-                    WriteInStream(Encoding.ASCII.GetBytes(currentcmd.ToString()));
+                    await WriteStream(Encoding.ASCII.GetBytes(currentcmd.ToString()));
                 }
                 else
                 {
-                    WriteInStream(new byte[] { 0x08 });
+                    Trace.WriteLine(++num);
+                    await WriteStream(new byte[] { 0x08 });
+                    
+                    Trace.WriteLine("CC Length: "+ currentcmd.Length);
                     if (currentcmd.Length > 0)
                         currentcmd.Remove(currentcmd.Length - 1, 1);
                 }

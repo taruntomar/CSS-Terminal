@@ -62,6 +62,7 @@ namespace CSSTerminal.Sessions
         }
         private void ObjectTree_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
+            if(SelectedSession!=null)
             SelectedSession.Open();
         }
         protected override void Toolbar_Add_Button_Click(object sender, RoutedEventArgs e)
